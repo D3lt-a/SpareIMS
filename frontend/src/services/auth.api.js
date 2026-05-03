@@ -30,7 +30,39 @@ export const signIn = async (email, key) => {
         const data = await response.json()
         localStorage.setItem('user', JSON.stringify(data.user))
         console.log(data.message)
-        console.log(data)
+        return response.ok
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const logout = async () => {
+    try {
+        const response = axios.post(`${baseUrl}/logout`)
+        const data = await response.data
+        console.log(data.message)
+        return response.ok
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getMe = async () => {
+    try {
+        const response = axios.get(`${baseUrl}/isme`)
+        const data = await response.data
+        console.log(data.message)
+        return response.ok
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getProtected = async () => {
+    try {
+        const response = axios.get(`${baseUrl}/protected`)
+        const data = await response.data
+        console.log(data.message)
         return response.ok
     } catch (error) {
         console.log(error)

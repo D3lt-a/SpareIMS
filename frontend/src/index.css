@@ -1,1 +1,12 @@
-@import 'tailwindcss'
+@import 'tailwindcss';
+
+div{
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}

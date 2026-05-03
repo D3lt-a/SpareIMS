@@ -20,10 +20,10 @@ app.use(cors({
 }));
 
 app.use(session({
-    secret: 'this-is-a-secret-key',
-    resave: false,
-    saveUninitialized: false,
-}));
+    secret:'my-secret-key',
+    resave:false,
+    saveUninitialized:false
+}))
 
 app.use('/auth', authRoute);
 app.use('/report', reportRoute)

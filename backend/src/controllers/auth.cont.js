@@ -19,7 +19,7 @@ const register = async (req, res) => {
  *      email: delta@mail.com,
  *      key: delta@key
  * }
- */ 
+ */
 
 const login = async (req, res) => {
     const { email, key } = req.body;
@@ -30,21 +30,50 @@ const login = async (req, res) => {
             return res.status(404).json({ message: 'User not found', success: false });
         }
         const user = rows[0];
-        const isMatch =  await bcrypt.compare(key, user.userKey);
+        const isMatch = await bcrypt.compare(key, user.userKey);
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials', success: false });
         } else {
-            return res.status(200).json({ message: 'Login successful', user: { name: user.userName, email: user.userEmail }, success: true });
+            req.session.user = {
+                name: user.userName,
+                email: user.userEmail
+            }
+            return res.status(200).json({ message: 'Login successful', user: req.session.user, success: true });
         }
     } catch (err) {
         res.status(500).json({ message: 'Error logging in', Error: err.message, success: false });
     }
 }
 
-const logout = async (req, res) => {}
+const logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) return res.status(500).json({ message: 'Error logging out' });
+        res.status(200).json({ message: 'Logout successful', success: true });
+    });
+};
+
+const isMe = async (req, res) => {
+    try {
+        if (!req.session.user) return res.status(404).json({ message: 'Not Logged In', success: false })
+        res.status(200).json({ message: 'You are logged in', user: req.session.user, success: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Error checking if logged in', Error: error.message, success: 'false' })
+    }
+}
+
+const protectedRoute = async (req, res) => {
+    try {
+        if (!req.session.user) return res.status(404).json({ message: 'Not Logged In', success: false })
+        res.status(200).json({ message: 'You are logged in as: ' + req.session.user.name, success: true });
+    } catch (error) {
+
+    }
+}
 
 module.exports = {
     register,
     login,
-    logout
+    logout,
+    isMe,
+    protectedRoute
 }
