@@ -54,10 +54,10 @@ const logout = (req, res) => {
 
 const isMe = async (req, res) => {
     try {
-        if (!req.session.user) return res.status(404).json({ message: 'Not Logged In', success: false })
+        if (!req.session.user) return res.status(401).json({ message: 'Not Logged In', success: false })
         res.status(200).json({ message: 'You are logged in', user: req.session.user, success: true });
     } catch (error) {
-        res.status(500).json({ message: 'Error checking if logged in', Error: error.message, success: 'false' })
+        res.status(500).json({ message: 'Error checking if logged in', Error: error.message, success: false })
     }
 }
 

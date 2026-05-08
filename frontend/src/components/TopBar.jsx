@@ -7,7 +7,11 @@ function TopBar() {
     const handleLogout = async () => {
         try {
             const response = await logout()
-            if (response) navigate('/register')           
+            if (!response) {
+                console.log('Logout failed')
+            } else {
+                navigate('/register')                
+            }
         } catch (error) {
             console.log(error)
         }

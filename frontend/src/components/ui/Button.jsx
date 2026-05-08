@@ -1,6 +1,6 @@
 import React from 'react'
 
-function BtnComp({ label, type='button' }) {
+function BtnComp({ label, type='button', onClick='' }) {
     return (
         <div>
             <button

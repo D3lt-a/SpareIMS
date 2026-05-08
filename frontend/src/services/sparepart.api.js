@@ -6,7 +6,7 @@ export const create = async (formData) => {
         const response = await axios.post(`${baseURL}/register`, formData)
         const data = await response.data
         console.log(data.message)
-        return response.ok
+        return response.data.success
     } catch (error) {
         console.log(error) 
     }

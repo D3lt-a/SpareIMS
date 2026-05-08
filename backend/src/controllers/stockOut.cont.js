@@ -17,7 +17,7 @@ const retrieve = async (req, res) => {
         const [rows] = await pool.query(sql)
         res.status(200).json({ message:"Stock Out Records Retrieved Successfully", Data: rows })
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving stock out records', Error: err.message });
+        res.status(500).json({ message: 'Error retrieving stock out records', Error: error.message });
     }
 }
 
@@ -28,7 +28,7 @@ const edit = async (req, res) => {
         const [result] = await pool.query('UPDATE stockOut set soQuant = ?, soUprice = ?, soTprice = ?, soDate = ?, spID = ? WHERE soID = ?', 
             [quantity, unitPrice, totalPrice, date, sparePart, id]
         )
-        if (result.affectedRows < 0) {
+        if (result.affectedRows === 0) {
             res.status(404).json({ message: 'Stock out record not found' });
         }
         res.status(200).json({ message: 'Stock out record updated successfully', Updated_Record : result });
@@ -41,7 +41,7 @@ const remove = async (req, res) => {
     const { id } = req.params;
     try {
         const [result] = await pool.query('DELETE FROM stockOut WHERE soID = ?', [id]);
-        if (result.affectedRows < 0) {
+        if (result.affectedRows === 0) {
             res.status(404).json({ message: 'Stock out record not found' });
         }
         res.status(200).json({ message: 'Stock out record deleted successfully', Deleted_Record : result });

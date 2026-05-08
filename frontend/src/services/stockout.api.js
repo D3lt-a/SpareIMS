@@ -16,8 +16,9 @@ export const retrieve = async () => {
     try {
         const response = await axios.get(`${baseUrl}/retrieve`)
         const data = response.data.Data
-        console.log(data.message)
-        return data
+        const { message, Data } = response.data
+        console.log(message)
+        return Data
     } catch (error) {
         console.log(error)
     }

@@ -12,11 +12,10 @@ function SignUp() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(`name is ${name} \nemail is ${email} \nkey is ${key}`)
         try {
             const response = await signUp(name, email, key);
             if (response) {
-                navigate('/dashboard')
+                navigate('/login')
             }
         } catch (error) {
             console.error(error)
@@ -86,7 +85,7 @@ function SignUp() {
                     Sign Up
                 </button>
 
-                <p className='text-sm font-thin italic'>Already have an account? <Link to='/login' className='text-gray-900 font-bold cursor-pointer'>Login</Link></p>
+                <p className='text-sm font-thin italic'>Already have an account? <Link to='/' className='text-gray-900 font-bold cursor-pointer'>Login</Link></p>
             </form>
         </div>
     )

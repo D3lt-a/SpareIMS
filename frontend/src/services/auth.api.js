@@ -1,4 +1,5 @@
 const baseUrl = 'http://localhost:5000/auth'
+import axios from 'axios'
 
 export const signUp = async (name, email, key) => {
     try {
@@ -25,6 +26,7 @@ export const signIn = async (email, key) => {
             headers:{
                 'Content-Type':'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({email, key})
         })
         const data = await response.json()
@@ -38,10 +40,11 @@ export const signIn = async (email, key) => {
 
 export const logout = async () => {
     try {
-        const response = axios.post(`${baseUrl}/logout`)
+        const response = await axios.post(`${baseUrl}/logout`)
         const data = await response.data
+        console.log(data)
         console.log(data.message)
-        return response.ok
+        return response.data.success
     } catch (error) {
         console.log(error)
     }
@@ -49,10 +52,10 @@ export const logout = async () => {
 
 export const getMe = async () => {
     try {
-        const response = axios.get(`${baseUrl}/isme`)
+        const response = await axios.get(`${baseUrl}/isme`, { withCredentials: true })
         const data = await response.data
         console.log(data.message)
-        return response.ok
+        return response.data.success
     } catch (error) {
         console.log(error)
     }
@@ -60,7 +63,7 @@ export const getMe = async () => {
 
 export const getProtected = async () => {
     try {
-        const response = axios.get(`${baseUrl}/protected`)
+        const response = await axios.get(`${baseUrl}/protected`)
         const data = await response.data
         console.log(data.message)
         return response.ok

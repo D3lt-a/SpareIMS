@@ -18,7 +18,7 @@ function Report() {
     }
 
     const exportReport = ({ data }) => {
-            window.print(data)
+        window.print(data)
     }
 
     const totalValue = report.reduce((sum, row) => sum + row.totalValue, 0)
@@ -44,13 +44,14 @@ function Report() {
                     <p className="text-gray-500 text-sm">Total Value</p>
                     <p className="text-2xl font-bold">{totalValue} Frw</p>
                 </div>
-                <BtnComp
-                    label="Print Report"
+                <button 
                     onClick={exportReport}
-                />
+                    className="w-full mt-5 cursor-pointer bg-gray-900 hover:bg-gray-700 text-white py-2 rounded-lg font-medium transition" >
+                    Export
+                </button>
             </div>
 
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <div id="printable" className="overflow-x-auto rounded-lg border border-gray-200">
                 <table className="w-full text-sm text-left">
                     <thead className="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
                         <tr>

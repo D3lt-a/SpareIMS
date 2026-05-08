@@ -1,19 +1,31 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Outlet } from 'react-router-dom'
 import { getMe } from '../services/auth.api'
 
 function ProtectedRoute() {
-    const [loading, setLoadin] = React.useState(true)
-    const Navigate = useNavigate()
+    const [loading, setLoading] = React.useState(true)
+    const [isUser, setIsUser] = React.useState(false)
+    const navigate = useNavigate()
     const isMe = async () => {
         try {
             const response = await getMe()
-            if (!response) Navigate('/register')
-            setLoading(false)
+            if (!response) {
+                navigate('/register')
+            } else {
+                setIsUser(true)
+            }
         } catch (error) {
             console.log(error)
+            navigate('/register')
+        } finally {
+            setLoading(false)
         }
     }
+
+    React.useEffect(() => {
+        isMe()
+    }, [])
+
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen gap-4">
@@ -22,11 +34,8 @@ function ProtectedRoute() {
             </div>
         );
     }
-    return (
-        <div>
 
-        </div>
-    )
+    return isUser ? <Outlet /> : null
 }
 
 export default ProtectedRoute

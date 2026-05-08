@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { get } from '../services/sparepart.api'
 const baseUrl = 'http://localhost:5000/stock-in' 
 
 export const create = async (formData) => {
